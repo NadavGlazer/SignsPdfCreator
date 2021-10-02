@@ -1,0 +1,9 @@
+datetime
+os
+platform
+Flask
+FPDF
+Html2Image
+randint
+selenium
+werkzeug

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+
+<head>
+    <title>pictues to pdf</title>
+    <style>
+        body {
+            color: white;
+            background: rgba(0, 0, 0, 0.9);
+        }
+
+
+        .CopyRightDiv {
+            position: absolute;
+            bottom: -1.5%;
+
+        }
+
+        .MainTitle {
+            text-align: center;
+            margin-top: 1%;
+        }
+
+        .SubmitButton {
+            height: 200px;
+            width: 300px;
+            align-items: center;
+            margin: auto;
+        }
+        .FormDiv{
+            display: flex;
+            justify-content: center;
+            margin-top: 400px;
+        }
+
+        .textInput {
+            text-align: right;
+            max-width: 200px;
+
+
+        }
+    </style>
+
+    <script language="JavaScript">
+        function inform(file, p) {
+            var names = "";
+            for (i = 0; i < document.getElementById(file).files.length; i++)
+                names += document.getElementById(file).files[i].name + " ,"
+            names = names.slice(0, -1)
+            document.getElementById(p).innerHTML = names
+        }
+    </script>
+
+    <meta charset=utf-8>
+</head>
+
+<body>
+    <div>
+        <h1 class="MainTitle">pic to pdf </h1>
+        <!-- <form action="/Star" method="POST" enctype="multipart/form-data" action=clear
+            onsubmit="if(document.getElementById('file').value == '') return false;">
+            <div>
+                <p style="margin-top: 0%;" id="formP1"></p>
+                <input type="file" contenteditable="true" name="file1" id="file1" accept="image/*"
+                    onchange="inform('file1','formP1')" multiple />
+                <textarea rows="4" cols="70" name="text1" class="textInput" autoComplete="off" id=text1
+                    placeholder="title of the pictures"></textarea>
+
+            </div>
+            <div>
+                <p style="margin-top: 0%;" id="formP2"></p>
+                <input type="file" name="file2" id="file2" accept="image/*" onchange="inform('file2','formP2')"
+                    multiple />
+                <textarea rows="4" cols="70" class="textInput" name="text2" autoComplete="off" id=text2
+                    placeholder="title of the pictures"></textarea>
+
+            </div>
+            <div>
+                <p style="margin-top: 0%;" id="formP3"></p>
+                <input type="file" name="file3" id="file3" accept="image/*" onchange="inform('file3','formP3')"
+                    multiple />
+                <textarea rows="4" cols="70" class="textInput" name="text3" autoComplete="off" id=text3
+                    placeholder="title of the pictures"></textarea>
+            </div>
+            <div>
+                <p style="margin-top: 0%;" id="formP4"></p>
+                <input type="file" name="file4" id="file4" accept="image/*" onchange="inform('file4','formP4')"
+                    multiple />
+                <textarea rows="4" cols="70" class="textInput" name="text4" autoComplete="off" id=text4
+                    placeholder="title of the pictures"></textarea>
+
+            </div>
+            <div>
+                <p style="margin-top: 0%;" id="formP5"></p>
+                <input type="file" name="file5" id="file5" accept="image/*" onchange="inform('file5','formP5')"
+                    multiple />
+                <textarea rows="4" cols="70" class="textInput" name="text5" autoComplete="off" id=text5
+                    placeholder="title of the pictures"></textarea>
+
+            </div>
+            <div>
+                <p style="margin-top: 0%;" id="formP6"></p>
+                <input type="file" name="file6" id="file6" accept="image/*" onchange="inform('file6','formP6')"
+                    multiple />
+                <textarea rows="4" cols="70" class="textInput" name="text6" autoComplete="off" id=text6
+                    placeholder="title of the pictures"></textarea>
+
+            </div>
+            <div>
+                <p style="margin-top: 0%;" id="formP7"></p>
+                <input type="file" name="file7" id="file7" accept="image/*" onchange="inform('file7','formP7')"
+                    multiple />
+                <textarea rows="4" cols="70" class="textInput" name="text7" autoComplete="off" id=text7
+                    placeholder="title of the pictures"></textarea>
+
+            </div>
+            <button type="submit">Extract Data</button>
+        </form> -->
+
+        <form action="/LoopStarter" method="POST" enctype="multipart/form-data">
+            <div class="FormDiv">
+                <button type="submit" class="SubmitButton" name="Mixed" value="Mixed">Mixed pictues</button>
+                <button type="submit" class="SubmitButton" name="Vertical" value="Vertical">Vertical pictures</button>
+            </div>
+        </form>
+        <div>
+            <p class="CopyRightDiv"> Created by Nadav Glazer. © 2021</p>
+        </div>
+    </div>
+  
+
+</body>

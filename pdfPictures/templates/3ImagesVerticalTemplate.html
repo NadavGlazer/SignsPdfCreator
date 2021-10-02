@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .MainDiv {
+            display: table-cell;
+            width: 794px;
+            height: 1123px;
+        }
+
+        .HeaderImage {
+            width: 750px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .TitleDiv {
+            margin: auto;
+            border: 3px solid black;
+            padding: 5px;
+            width: 300px;
+            height: 100px;
+            margin-top: 10px;
+        }
+
+        .TitleText {
+            text-align: right;
+            margin-top: 0px;
+            white-space: pre-line;
+            line-height: 1;
+            font-size: 25px;
+            font-weight: 200;
+        }
+
+        .FirstPicDiv {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .FirstImage {
+            width: 602px;
+            height: 270px;
+        }
+
+        .SecondPicDiv {
+            display: flex;
+            justify-content: center;
+            margin-top: 2px;
+        }
+
+        .SecondImage {
+            width: 602px;
+            height: 270px;
+        }
+
+        .ThirdPicDiv {
+            display: flex;
+            justify-content: center;
+            margin-top: 2px;
+        }
+
+        .ThirdImage {
+            width: 602px;
+            height: 270px;
+        }
+
+        .PageNumberDiv {
+            float: right;
+            margin-right: 30px;
+            margin-top: 90px;
+        }
+
+        .InteractiveDiv {
+            display: table-cell;
+            width: 794px;
+            height: 500px;
+            position: absolute;
+            top: 50px;
+            right: 200px;
+            float: right;
+        }
+
+        .InteractiveTitle {
+            margin-top: 0px;
+
+        }
+
+        .FormDiv {
+            position: relative;
+        }
+
+        .SubmitButtonDiv {
+            display: flex;
+            justify-content: center;
+            margin-top: 300px;
+        }
+
+        .SubmitButton {
+            height: 200px;
+            width: 250px;
+            align-items: center;
+            margin: auto;
+        }
+
+        .InputFileDiv {
+            float: left;
+            margin-top: 80px;
+            width: 100%;
+        }
+
+        .inputFile {
+            position: absolute;
+            width: 200px;
+            height: 50px;
+        }
+
+        .ResetButton {
+            height: 200px;
+            width: 250px;
+            align-items: center;
+            margin: auto;
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+    <script>
+        function ResetForm() {
+            document.getElementById("TitleTextF").value = "";
+            document.getElementById('TitleText').innerHTML = "";
+
+            document.getElementById("FirstPic").value = null;
+            document.getElementById('pic_one').src = null
+
+            document.getElementById("SecondPic").value = null;
+            document.getElementById('pic_two').src = null
+
+            document.getElementById("ThirdPic").value = null;
+            document.getElementById('pic_three').src = null
+
+        }
+        function LoadText() {
+            document.getElementById('TitleText').innerHTML = document.getElementById('TitleTextF').value;
+        };
+        var LoadFirstImage = function (event) {
+            var image = document.getElementById('pic_one');
+            image.src = URL.createObjectURL(event.target.files[0]);
+        };
+        var LoadSecondImage = function (event) {
+            var image = document.getElementById('pic_two');
+            image.src = URL.createObjectURL(event.target.files[0]);
+        };
+        var LoadThirdImage = function (event) {
+            var image = document.getElementById('pic_three');
+            image.src = URL.createObjectURL(event.target.files[0]);
+        };
+    </script>
+</head>
+
+<body>
+    <div class="MainDiv">
+        <!-- <img src="C:/Users/Nadav1/TaboProject/TaboAccessibility/header.png" class="HeaderImage"> -->
+        <div class="TitleDiv">
+            <p class="TitleText" id="TitleText">title</p>
+        </div>
+        <div class="FirstPicDiv">
+            <img class="FirstImage" id="pic_one" src="pic_one">
+        </div>
+        <div class="SecondPicDiv">
+            <img class="SecondImage" id="pic_two" src="pic_two">
+        </div>
+        <div class="ThirdPicDiv">
+            <img class="ThirdImage" id="pic_three" src="pic_three">
+        </div>
+        <div class="PageNumberDiv">
+            <h2>{{PageNumber}}</h2>
+        </div>
+    </div>
+    <div class="InteractiveDiv">
+        <h1 class="InteractiveTitle">Add images and text</h1>
+        <form action="/LoopContinue" method="POST" enctype="multipart/form-data">
+            <div class="FormDiv">
+                <textarea rows="4" cols="70" class="textInput" name="TitleTextF" autoComplete="off" id=TitleTextF
+                    onchange="LoadText()"></textarea>
+                <div class="InputFileDiv">
+                    <input type="file" class="inputFile" name="FirstPic" id="FirstPic" accept="image/*"
+                        onchange="LoadFirstImage(event)" />
+                </div>
+
+                <div class="InputFileDiv">
+                    <input type="file" class="inputFile" name="SecondPic" id="SecondPic" accept="image/*"
+                        onchange="LoadSecondImage(event)" />
+                </div>
+
+                <div class="InputFileDiv">
+                    <input type="file" class="inputFile" name="ThirdPic" id="ThirdPic" accept="image/*"
+                        onchange="LoadThirdImage(event)" />
+                </div>
+
+                <input type="hidden"  id="FileID" name="FileID" value={{FileID}} readonly>
+                <input type="hidden"  id="CurrentTime" name="CurrentTime" value={{Time}} readonly>
+                <input type="hidden"  id="TemplateType" name="TemplateType" value="3ImagesVertical" readonly>
+                <input type="hidden"  id="PageNumber" name="PageNumber" value={{PageNumber}} readonly>
+
+                <div class="SubmitButtonDiv">
+
+                    <button type="submit" class="SubmitButton" name="NewVertical" value="NewVertical"> New Vertical
+                        page</button>
+                    <button type="submit" class="SubmitButton" name="NewMix" value="NewMix">New mixed page</button>
+                    <button type="submit" class="SubmitButton" name="End" value="End">Finish and create pdf</button>
+                </div>
+            </div>
+
+
+        </form>
+        <button class="ResetButton" name="resetButton" value="resetButton" onclick="ResetForm()">Reset</button>
+    </div>
+
+</body>
+
+</html>

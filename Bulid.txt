@@ -1,0 +1,18 @@
+docker build --rm -t rpipy_flask0.10 .
+docker run -ti -d -p 5000:5000 rpipy_flask0.10
+# if you need GPIO use the following (privileged)
+docker run -ti --restart=always --privileged -d -p 5000:5000 rpipy_flask0.10
+docker exec -it “container-id” /bin/bash
+Running without Docker, locally
+mkdir env 
+virtualenv -p python3 env
+source env/bin/activate
+pip install -r requirements.txt
+python app.py
+
+for id in core sdram_c sdram_i sdram_p ; do echo -e "$id:\t$(vcgencmd measure_volts $id)" ; done
+for src in arm core h264 isp v3d uart pwm emmc pixel vec hdmi dpi ; do \
+ echo -e "$src:\t$(vcgencmd measure_clock $src)" ; \
+ done
+
+ln -s /usr/share/zoneinfo/Israel /etc/localtime

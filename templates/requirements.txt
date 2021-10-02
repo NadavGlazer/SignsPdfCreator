@@ -1,0 +1,14 @@
+pdfplumber
+gunicorn
+openpyxl
+werkzeug 
+datetime
+multiprocess
+pandas
+platform
+Flask
+pdfkit
+os
+FPDF
+Html2Image
+randint

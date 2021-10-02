@@ -1,0 +1,16 @@
+{
+    "main_computer_upload_folder":"C:/Users/Nadav1/Desktop/GithubRepo`s/TaboProject/TaboAccessibility/pdfPictures/static/uploads/",
+    "docker_upload_folder": "/pdfpictures/static/uploads/",
+    "MAX_CONTENT_PATH": 1000,
+    "TIME_OUT": 0,
+    "id_random_range": [1000,9999],
+    "3_images_mixed_html_template_name": "3ImagesMixTemplate.html",
+    "3_images_mixed_html_name": "3ImagesMix.html",
+    "3_images_vertical_html_template_name": "3ImagesVerticalTemplate.html",
+    "3_images_vertical_html_name": "3ImagesVertical.html",
+    "page_image_type": "png",
+    "screenshot_size": [794, 1123],
+    "header_picture_path": "header.png",
+    "header_picure_size" : [190,15],
+    "pdf_body_size": [190, 246]
+}

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .MainDiv {
+            width: 794px;
+            height: 1123px;
+        }
+
+        .HeaderImage {
+            width: 750px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .TitleDiv {
+            margin: auto;
+            border: 3px solid black;
+            padding: 5px;
+            width: 300px;
+            height: 100px;
+            margin-top: 10px;
+            z-index: 9;
+            background-color: white;
+            margin-right: 30px;
+            position: relative;
+        }
+
+        .TitleText {
+            text-align: right;
+            margin-top: 0px;
+            white-space: pre-line;
+            line-height: 0.8;
+            font-size: 25px;
+            font-weight: 200;
+        }
+
+
+        .HorizontalPicsDiv {
+            display: flex;
+            justify-content: center;
+            margin-top: -60px;
+            z-index: -1;
+
+        }
+
+        .FirstSignDiv {
+            margin-top: 20px;
+        }
+
+        .FirstPicDiv {
+            display: table-cell;
+            z-index: 1;
+        }
+
+        .FirstImage {
+            width: 300px;
+            height: 480px;
+            margin-right: 1px;
+        }
+
+        .SecondPicDiv {
+            display: table-cell;
+        }
+
+        .SecondImage {
+            width: 300px;
+            height: 480px;
+            margin-left: 1px;
+        }
+
+
+        .PageNumberDiv {
+            float: right;
+            margin-right: 30px;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="MainDiv">
+        <!-- <img src="C:/Users/Nadav1/TaboProject/TaboAccessibility/header.png" class="HeaderImage"> -->
+        <div class="FirstSignDiv">
+            <div class="TitleDiv">
+                <p class="TitleText">text_from_form</p>
+            </div>
+            <div class="HorizontalPicsDiv">
+                <div class="FirstPicDiv">
+                    <img class="FirstImage"
+                        src="pic_one">
+                </div>
+                <div class="SecondPicDiv">
+                    <img class="SecondImage"
+                        src="pic_two">
+                </div>
+            </div>
+        </div>
+        <div class="SecondSignDiv">
+            <div class="TitleDiv">
+                <p class="TitleText">text_from_form</p>
+            </div>
+            <div class="HorizontalPicsDiv">
+                <div class="SecondPicDiv">
+                    <img class="FirstImage" src="pic_three">
+                </div>
+                <div class="SecondPicDiv">
+                    <img class="SecondImage" src="pic_three">
+                </div>
+            </div>
+        </div>
+
+        <div class="PageNumberDiv">
+            <h2>page_number</h2>
+        </div>
+    </div>
+
+</body>
+
+</html>
