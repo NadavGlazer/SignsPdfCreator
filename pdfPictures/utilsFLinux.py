@@ -86,7 +86,7 @@ def information_to_pdf(information, file_id, current_time, json_data, app):
     options = Options()
     options.headless = True
 
-    options.add_argument("--window-size=1024,1200")
+    #options.add_argument("--window-size=1024,1200")
     options.add_argument("--hide-scrollbars")
 
     driver = webdriver.Chrome(executable_path="/usr/bin/chromedriver", options=options)
