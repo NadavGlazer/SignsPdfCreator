@@ -55,9 +55,10 @@ def loop_starter():
 
         return render_template(
             template_name,
-            FileID=file_id,
-            Time=current_time,
-            PageNumber=1,
+            FileID = file_id,
+            Time = current_time,
+            PageNumber = 1,
+            PageCounter = 1,
         )
 
 
@@ -66,7 +67,7 @@ def loop_continue():
     """Continues the loop or ending it, creating the pictures and the pdf"""
     if request.method == "POST":
         # Extracting all the info from the form, both the hidden and the shown
-        title_text = request.form.get("TitleTextF")
+        title_text1 = request.form.get("TitleTextF1")
         first_pic = request.files.get("FirstPic")
         second_pic = request.files.get("SecondPic")
         third_pic = request.files.get("ThirdPic")
@@ -74,16 +75,29 @@ def loop_continue():
         file_id = request.form.get("FileID")
         template_type = request.form.get("TemplateType")
         page_number = request.form.get("PageNumber")
+        page_counter = request.form.get("PageCounter")
 
-        is_new_mix_page = request.form.get("NewMix")
-        is_new_vertical_page = request.form.get("NewVertical")
+        is_new_3_mix_page = request.form.get("NewMix3")
+        is_new_3_horizontal_page = request.form.get("NewHorizontal3")
+        is_new_4_vertical_page = request.form.get("NewVertical4")
+
+        is_4_image_page =  (str(template_type[0]) == "4ImagesVertical")
+
+        fourth_pic = "temp"
+
+        if is_4_image_page:
+           title_text2 = request.form.get("TitleTextF2")
+           fourth_pic = request.files.get("FourthPic")
+
 
         if (
             "application/octet-stream" in str(first_pic)
             or "application/octet-stream" in str(second_pic)
             or "application/octet-stream" in str(third_pic)
-        ):
+            or "application/octet-stream" in str(fourth_pic)
+        ):            
             app.logger.info("Page number %s is missing at least one image", page_number)
+
         else:
 
             temp_info = ""
@@ -93,13 +107,16 @@ def loop_continue():
 
             temp_info = str(template_type[0])
             temp_info = temp_info + "*" + str(template_type)
-            temp_info = utils.get_fixed_title_text(temp_info, title_text)
+            temp_info = utils.get_fixed_title_text(temp_info, title_text1)
+
+            if is_4_image_page:
+                temp_info = utils.get_fixed_title_text(temp_info, title_text2)
 
             # Saving the first picure with the id
             # ,time and number and page number and saving in in the information array
             file_type = utils.get_file_type(secure_filename(first_pic.filename))
             temp_info = temp_info + utils.save_image(
-                file_type, file_id, current_time, page_number, 1, first_pic, app
+                file_type, file_id, current_time, page_counter, 1, first_pic, app
             )
 
             # Saving the second picure with the id,
@@ -107,7 +124,7 @@ def loop_continue():
 
             file_type = utils.get_file_type(secure_filename(second_pic.filename))
             temp_info = temp_info + utils.save_image(
-                file_type, file_id, current_time, page_number, 2, second_pic, app
+                file_type, file_id, current_time, page_counter, 2, second_pic, app
             )
 
             # Saving the third picure with the id,
@@ -115,8 +132,16 @@ def loop_continue():
 
             file_type = utils.get_file_type(secure_filename(third_pic.filename))
             temp_info = temp_info + utils.save_image(
-                file_type, file_id, current_time, page_number, 3, third_pic, app
+                file_type, file_id, current_time, page_counter, 3, third_pic, app
             )
+
+            # Saving the fourth picure with the id,
+            # time and number and page number and saving in in the information array
+            if is_4_image_page:
+                file_type = utils.get_file_type(secure_filename(fourth_pic.filename))
+                temp_info = temp_info + utils.save_image(
+                    file_type, file_id, current_time, page_counter, 4, fourth_pic, app
+                )
 
             app.logger.info("Page %s information : %s", page_number, temp_info)
 
@@ -129,18 +154,21 @@ def loop_continue():
 
             page_number = int(page_number)
             page_number += 1
+            page_counter += 1
 
-        if is_new_mix_page or is_new_vertical_page:
-            temp_template = (
-                json_data["3_images_vertical_html_template_name"]
-                if not is_new_mix_page
-                else json_data["3_images_mixed_html_template_name"]
-            )
+        if is_new_3_mix_page or is_new_3_horizontal_page or is_new_4_vertical_page:            
+            if is_new_3_horizontal_page:
+                temp_template = json_data["3_images_Horizontal_html_template_name"]
+            elif is_new_3_mix_page :
+                temp_template = json_data["3_images_mixed_html_template_name"]
+            else:
+                temp_template = json_data["4_images_vertical_html_template_name"]
             return render_template(
                 temp_template,
-                FileID=file_id,
-                Time=current_time,
-                PageNumber=page_number,
+                FileID = file_id,
+                Time = current_time,
+                PageNumber = page_number,
+                PageCounter = page_counter,
             )
 
         else:

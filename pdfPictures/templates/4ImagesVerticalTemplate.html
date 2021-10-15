@@ -190,27 +190,27 @@
         <!-- <img src="C:/Users/Nadav1/TaboProject/TaboAccessibility/header.png" class="HeaderImage"> -->
         <div class="FirstSignDiv">
             <div class="TitleDiv">
-                <p class="TitleText" id = "TitleText1">text_from_form</p>
+                <p class="TitleText" id = "TitleText1">{{title}}</p>
             </div>
             <div class="HorizontalPicsDiv">
                 <div class="FirstPicDiv">
-                    <img class="FirstImage" id="pic_one" src="pic_one">
+                    <img class="FirstImage" id="pic_one" src="{{pic_one}}">
                 </div>
                 <div class="SecondPicDiv">
-                    <img class="SecondImage" id="pic_two" src="pic_two">
+                    <img class="SecondImage" id="pic_two" src="{{pic_two}}">
                 </div>
             </div>
         </div>
         <div class="SecondSignDiv">
             <div class="TitleDiv">
-                <p class="TitleText" id = "TitleText2">text_from_form</p>
+                <p class="TitleText" id = "TitleText2">{{title2}}</p>
             </div>
             <div class="HorizontalPicsDiv">
                 <div class="SecondPicDiv">
-                    <img class="FirstImage" id="pic_three" src="pic_three">
+                    <img class="FirstImage" id="pic_three" src="{{pic_three}}">
                 </div>
                 <div class="SecondPicDiv">
-                    <img class="SecondImage" id="pic_four" src="pic_four">
+                    <img class="SecondImage" id="pic_four" src="{{pic_four}}">
                 </div>
             </div>
         </div>
@@ -252,14 +252,16 @@
 
                 <input type="hidden" id="FileID" name="FileID" value={{FileID}} readonly>
                 <input type="hidden" id="CurrentTime" name="CurrentTime" value={{Time}} readonly>
-                <input type="hidden" id="TemplateType" name="TemplateType" value="3ImagesVertical" readonly>
+                <input type="hidden" id="TemplateType" name="TemplateType" value="4ImagesVertical" readonly>
                 <input type="hidden" id="PageNumber" name="PageNumber" value={{PageNumber}} readonly>
+                <input type="hidden"  id="PageCounter" name="PageCounter" value={{PageCounter}} readonly>
 
                 <div class="SubmitButtonDiv">
 
-                    <button type="submit" class="SubmitButton" name="NewVertical" value="NewVertical"> New Vertical
-                        page</button>
-                    <button type="submit" class="SubmitButton" name="NewMix" value="NewMix">New mixed page</button>
+                    <button type="submit" class="SubmitButton" name="NewHorizontal3" value="NewHorizontal3"> New
+                        page - 3 images Horizontaly</button>
+                    <button type="submit" class="SubmitButton" name="NewMix3" value="NewMi3">New page - 3 images mixed</button>
+                    <button type="submit" class="SubmitButton" name="NewVertical4" value="NewVertical4">New page - 4 images Verticaly</button>
                     <button type="submit" class="SubmitButton" name="End" value="End">Finish and create pdf</button>
                 </div>
             </div>

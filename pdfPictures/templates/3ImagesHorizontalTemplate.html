@@ -133,8 +133,8 @@
     </style>
     <script>
         function ResetForm() {
-            document.getElementById("TitleTextF").value = "";
-            document.getElementById('TitleText').innerHTML = "";
+            document.getElementById("TitleTextF1").value = "";
+            document.getElementById('TitleText1').innerHTML = "";
 
             document.getElementById("FirstPic").value = null;
             document.getElementById('pic_one').src = null
@@ -147,7 +147,7 @@
 
         }
         function LoadText() {
-            document.getElementById('TitleText').innerHTML = document.getElementById('TitleTextF').value;
+            document.getElementById('TitleText1').innerHTML = document.getElementById('TitleTextF1').value;
         };
         var LoadFirstImage = function (event) {
             var image = document.getElementById('pic_one');
@@ -168,16 +168,16 @@
     <div class="MainDiv">
         <!-- <img src="C:/Users/Nadav1/TaboProject/TaboAccessibility/header.png" class="HeaderImage"> -->
         <div class="TitleDiv">
-            <p class="TitleText" id="TitleText">title</p>
+            <p class="TitleText" id="TitleText1">{{title}}</p>
         </div>
         <div class="FirstPicDiv">
-            <img class="FirstImage" id="pic_one" src="pic_one">
+            <img class="FirstImage" id="pic_one" src="{{pic_one}}">
         </div>
         <div class="SecondPicDiv">
-            <img class="SecondImage" id="pic_two" src="pic_two">
+            <img class="SecondImage" id="pic_two" src="{{pic_two}}">
         </div>
         <div class="ThirdPicDiv">
-            <img class="ThirdImage" id="pic_three" src="pic_three">
+            <img class="ThirdImage" id="pic_three" src="{{pic_three}}">
         </div>
         <div class="PageNumberDiv">
             <h2>{{PageNumber}}</h2>
@@ -187,7 +187,7 @@
         <h1 class="InteractiveTitle">Add images and text</h1>
         <form action="/LoopContinue" method="POST" enctype="multipart/form-data">
             <div class="FormDiv">
-                <textarea rows="4" cols="70" class="textInput" name="TitleTextF" autoComplete="off" id=TitleTextF
+                <textarea rows="4" cols="70" class="textInput" name="TitleTextF1" autoComplete="off" id=TitleTextF1
                     onchange="LoadText()"></textarea>
                 <div class="InputFileDiv">
                     <input type="file" class="inputFile" name="FirstPic" id="FirstPic" accept="image/*"
@@ -206,14 +206,16 @@
 
                 <input type="hidden"  id="FileID" name="FileID" value={{FileID}} readonly>
                 <input type="hidden"  id="CurrentTime" name="CurrentTime" value={{Time}} readonly>
-                <input type="hidden"  id="TemplateType" name="TemplateType" value="3ImagesVertical" readonly>
+                <input type="hidden"  id="TemplateType" name="TemplateType" value="3ImagesHorizontal" readonly>
                 <input type="hidden"  id="PageNumber" name="PageNumber" value={{PageNumber}} readonly>
+                <input type="hidden"  id="PageCounter" name="PageCounter" value={{PageCounter}} readonly>
 
                 <div class="SubmitButtonDiv">
 
-                    <button type="submit" class="SubmitButton" name="NewVertical" value="NewVertical"> New Vertical
-                        page</button>
-                    <button type="submit" class="SubmitButton" name="NewMix" value="NewMix">New mixed page</button>
+                    <button type="submit" class="SubmitButton" name="NewHorizontal3" value="NewHorizontal3"> New
+                        page - 3 images Horizontaly</button>
+                    <button type="submit" class="SubmitButton" name="NewMix3" value="NewMi3">New page - 3 images mixed</button>
+                    <button type="submit" class="SubmitButton" name="NewVertical4" value="NewVertical4">New page - 4 images Verticaly</button>
                     <button type="submit" class="SubmitButton" name="End" value="End">Finish and create pdf</button>
                 </div>
             </div>
