@@ -93,14 +93,15 @@ def information_to_pdf(information, file_id, current_time, json_data, app):
     driver.implicitly_wait(0.5)
 
     final_images = []
-    page_amount = information[-1][0]
+    page_amount = len(information)
+    page_number = 1
     for part in information:
         html_template = set_html_template(
             part[4],
             part[5],
             part[6],
             part[3],
-            part[0],
+            page_number,
             page_amount,
             part[2],
         )
@@ -119,17 +120,13 @@ def information_to_pdf(information, file_id, current_time, json_data, app):
             appFLinux.load_temp_html_file(html_file=temp_html_file_name)
         url = "http://192.168.0.106:5200/TempHtmlFile/" + temp_html_file_name
         driver.get(url)
-        driver.save_screenshot(image_file_name)
-        # hti = Html2Image()
-        # hti.screenshot(
-        #     html_str=html_template,
-        #     save_as=image_file_name,
-        #     size=(
-        #         json_data["screenshot_size"][0],
-        #         json_data["screenshot_size"][1],
-        #     ),
-        # )
+
+        main_div = driver.find_element_by_class_name("MainDiv")
+        main_div.screenshot(image_file_name)
+       
         final_images.append(image_file_name)
+        page_number += 1
+        
     driver.close()
     pdf = FPDF("P", "mm", "A4")
 

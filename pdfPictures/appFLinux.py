@@ -17,7 +17,6 @@ import _thread
 import os
 
 app = Flask(__name__)
-# TODO: add this information to readme and move to config.json file
 json_file = open("config.json", encoding="utf8")
 json_data = json.load(json_file)
 
@@ -27,25 +26,20 @@ app.config["MAX_CONTENT_PATH"] = json_data["MAX_CONTENT_PATH"]
 app.config["TIME_OUT"] = json_data["TIME_OUT"]
 
 
-# TODO: remove prints and use logger - https://flask.palletsprojects.com/en/2.0.x/logging/
 @app.route("/")
 def index():
     """Starts the website"""
     return render_template("index.html")
 
 
-# TODO: remove get
 @app.route("/LoopStarter", methods=["POST"])
 def loop_starter():
     """Sends the user to his destination, with the needed information"""
     if request.method == "POST":
-        # TODO: dont use saved word id
         file_id = randint(
             json_data["id_random_range"][0], json_data["id_random_range"][1]
         )
         current_time = utils.get_current_time()
-        # TODO: move the file name creation to utils class
-        # TODO: read about context managers (with open ....)
         open(
             utils.generate_text_file_name(file_id, current_time), "a", encoding="utf-8"
         ).close()
@@ -54,7 +48,6 @@ def loop_starter():
             "Each line in the info file is in the following order, seperated by a '*' : page number, amount of images, template name, text, path of each image"
         )
 
-        # TODO: read about short if
         if request.form.get("Mixed"):
             template_name = json_data["3_images_mixed_html_template_name"]
         elif request.form.get("Vertical"):
@@ -98,8 +91,7 @@ def loop_continue():
             # "Information" has the following data: page number,
             #  pic amount, html template, title text, the pictures
 
-            temp_info = page_number
-            temp_info = temp_info + "*" + str(template_type[0])
+            temp_info = str(template_type[0])
             temp_info = temp_info + "*" + str(template_type)
             temp_info = utils.get_fixed_title_text(temp_info, title_text)
 
