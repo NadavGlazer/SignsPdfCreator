@@ -24,7 +24,7 @@ def save_image(
         file_type, file_id, current_time, page_number, serial_number
     ).replace(".", "_", 2)    
     picture.save(os.path.join(app.config["UPLOAD_FOLDER"], file_name))
-    return "*" + os.path.join(app.config["UPLOAD_FOLDER"], file_name)
+    return "*" + app.config["UPLOAD_FOLDER"] + file_name
 
 
 def get_file_type(file_name):
@@ -58,11 +58,12 @@ def set_html_template_3_images(
         html_template = html_file.read()
 
     return (
-        html_template.replace("pic_one", pic_one)
-        .replace("pic_two", pic_two)
-        .replace("pic_three", pic_three)
+        html_template.replace("pic_one", ("/" + pic_one.split("/",3)[-1]))
+        .replace("pic_two", ("/" + pic_two.split("/",3)[-1]))
+        .replace("pic_three", ("/" + pic_three.split("/",3)[-1]))
         .replace("text_from_form", text)
         .replace("page_number", "עמוד " + str(page_num) + " מתוך " + str(page_amount))
+        .replace("$", "\n")
     )
 
 def set_html_template_4_images(
@@ -76,12 +77,13 @@ def set_html_template_4_images(
     return (
         html_template
         .replace("text_from_form1", text1)
-        .replace("pic_one", pic_one)
-        .replace("pic_two", pic_two)
+        .replace("pic_one", ("/" + pic_one.split("/",3)[-1]))
+        .replace("pic_two", ("/" + pic_two.split("/",3)[-1]))
         .replace("text_from_form2",text2)
-        .replace("pic_three", pic_three)
-        .replace("pic_four", pic_four)        
+        .replace("pic_three",("/" + pic_three.split("/",3)[-1]))
+        .replace("pic_four",("/" + pic_four.split("/",3)[-1]))        
         .replace("page_number", "עמוד " + str(page_num) + " מתוך " + str(page_amount))
+        .replace("$", "\n")
     )
 
 
@@ -106,7 +108,7 @@ def information_to_pdf(information, file_id, current_time, json_data, applicatio
     options = Options()
     options.headless = True
 
-    options.add_argument("--window-size=1024,1200")
+    options.add_argument("--window-size=921,1080")
     options.add_argument("--hide-scrollbars")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
@@ -153,7 +155,6 @@ def information_to_pdf(information, file_id, current_time, json_data, applicatio
         ) as temp_html_file:
             temp_html_file.write(html_template)
             
-        print("aa")
         
         with application.app_context():
             app.load_temp_html_file(html_file=temp_html_file_name)
