@@ -7,6 +7,7 @@
 import json
 from random import randint
 
+
 import utils
 from flask import Flask, render_template, request, send_file
 from fpdf import FPDF
@@ -50,8 +51,10 @@ def loop_starter():
 
         if request.form.get("Mixed"):
             template_name = json_data["3_images_mixed_html_template_name"]
-        elif request.form.get("Vertical"):
-            template_name = json_data["3_images_vertical_html_template_name"]
+        elif request.form.get("Horizontal"):
+            template_name = json_data["3_images_Horizontal_html_template_name"]
+        elif request.form.get("Vertical") : 
+            template_name = json_data["4_images_vertical_html_template_name"]
 
         return render_template(
             template_name,
@@ -81,7 +84,7 @@ def loop_continue():
         is_new_3_horizontal_page = request.form.get("NewHorizontal3")
         is_new_4_vertical_page = request.form.get("NewVertical4")
 
-        is_4_image_page =  (str(template_type[0]) == "4ImagesVertical")
+        is_4_image_page =  (str(template_type) == "4ImagesVertical")
 
         fourth_pic = "temp"
 
@@ -101,10 +104,8 @@ def loop_continue():
         else:
 
             temp_info = ""
-
             # "Information" has the following data: page number,
             #  pic amount, html template, title text, the pictures
-
             temp_info = str(template_type[0])
             temp_info = temp_info + "*" + str(template_type)
             temp_info = utils.get_fixed_title_text(temp_info, title_text1)
@@ -118,7 +119,6 @@ def loop_continue():
             temp_info = temp_info + utils.save_image(
                 file_type, file_id, current_time, page_counter, 1, first_pic, app
             )
-
             # Saving the second picure with the id,
             # time and number and page number and saving in in the information array
 
@@ -153,8 +153,12 @@ def loop_continue():
                 text_file.write(temp_info + "\n")
 
             page_number = int(page_number)
+            page_counter = int(page_counter)
+
             page_number += 1
             page_counter += 1
+            print(temp_info)
+
 
         if is_new_3_mix_page or is_new_3_horizontal_page or is_new_4_vertical_page:            
             if is_new_3_horizontal_page:
@@ -203,6 +207,8 @@ def loop_continue():
             "wait.html",
             pdf_name=utils.generate_pdf_file_name(file_id, current_time),
             info_file=utils.generate_text_file_name(file_id, current_time),
+            time = current_time,
+            file_id = file_id,
         )
 
 
@@ -240,12 +246,17 @@ def reload_from_id_time():
 		    app,
         ),
     )
+    open(
+        utils.generate_update_text_file_name(file_id, time), "a", encoding="utf-8"
+    ).close()   
+
     return render_template(
         "wait.html",
         pdf_name=utils.generate_pdf_file_name(file_id, time),
         info_file=utils.generate_text_file_name(file_id, time),
         file_id= file_id,
         time= time,
+        update_msg = "Starting",
     )
 
 
@@ -268,13 +279,22 @@ def LoopAndFileUploader():
   if request.method == "POST":
     pdf_file_name = request.form.get("PDFName")
     info_file_name = request.form.get("InfoFile")
-
-    with open(info_file_name) as info_file:
-        for line in info_file:
-            if "Finished" in line:
-                return render_template('finish.html', pdf_name = pdf_file_name)    
+    file_id = request.form.get("FileID")
+    time = request.form.get("Time")
     
-    return render_template('wait.html', pdf_name = pdf_file_name, info_file=info_file_name)
+
+    update_file_name = utils.generate_update_text_file_name(file_id, time)
+
+    last_line = "starting"
+        
+    with open("/Test/templates/" + update_file_name, "r+") as update_file:
+        for line in update_file:
+            last_line = line 
+
+    if "Finished" in last_line:
+            return render_template('finish.html', pdf_name = pdf_file_name)    
+
+    return render_template('wait.html', pdf_name = pdf_file_name, info_file=info_file_name, file_id = file_id, time= time, update_msg = last_line)
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5200)
+    app.run(host="0.0.0.0", port=5300)

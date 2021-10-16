@@ -66,14 +66,31 @@
 <body onload="myFunction()">
   <div>
     <h1 class="MainTitle">Processing</h1>
+    <h2 class="MainTitle">{{update_msg}} </h2>
+
+    
     <form action="{{ url_for('LoopAndFileUploader')}}" id="form" method="POST">
       <input type="hidden" id="PDFName" name="PDFName" value={{ pdf_name }} readonly>
       <input type="hidden" id="InfoFile" name="InfoFile" value={{ info_file }} readonly>
+      <input type="hidden" id="FileID" name="FileID" value={{ file_id }} readonly>
+      <input type="hidden" id="Time" name="Time" value={{ time }} readonly>
       <button type="submit" class="SubmitForm">submit</button>
     </form>
+
     <form action="./" class="divs">
       <input class="HomePageB" type="submit" value="Home Page" />
     </form>
+    <form action="/ReLoad" method="POST" enctype="multipart/form-data">
+      <div class="divs">
+        <input type="hidden" id="FileID"  name="FileID" value={{ file_id }} readonly>
+        <input type="hidden" id="Time" name="Time" value={{ time }} readonly>
+        <button class="HomePageB" type="submit">Reload</button>
+      </div>
+    </form>
+
+    <h2>id : {{file_id}}</h2>
+    <h2>time : {{time}}</h2>
+
     <div>
       <p class="CopyRightDiv"> Created by Nadav Glazer. © 2021</p>
     </div>

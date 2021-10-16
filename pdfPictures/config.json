@@ -1,6 +1,7 @@
 {
     "main_computer_upload_folder":"C:/Users/Nadav1/Desktop/GithubRepo`s/TaboProject/TaboAccessibility/pdfPictures/static/uploads/",
     "docker_upload_folder": "/pdfpictures/static/uploads/",
+    "aa" : "/Test/templates/static/uploads/",
     "MAX_CONTENT_PATH": 1000,
     "TIME_OUT": 0,
     "id_random_range": [1000,9999],
