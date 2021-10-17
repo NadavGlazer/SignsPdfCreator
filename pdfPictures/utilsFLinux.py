@@ -108,7 +108,7 @@ def information_to_pdf(information, file_id, current_time, json_data, applicatio
     options = Options()
     options.headless = True
 
-    options.add_argument("--window-size=921,1080")
+    options.add_argument("--window-size=1024,1200")
     options.add_argument("--hide-scrollbars")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
@@ -184,7 +184,8 @@ def information_to_pdf(information, file_id, current_time, json_data, applicatio
             h=json_data["header_picure_size"][1],
         )
         pdf.image(
-            image,
+            image,        
+            x=25,
             w=json_data["pdf_body_size"][0],
             h=json_data["pdf_body_size"][1],
             type=json_data["page_image_type"],
@@ -197,6 +198,7 @@ def information_to_pdf(information, file_id, current_time, json_data, applicatio
     pdf.output(pdf_file_name, "F")
 
     write_in_update_text_file(file_id, current_time, "Finished")   
+    write_in_overall_information_file("Finished generating " + pdf_file_name)
 
     return pdf_file_name
 
@@ -212,3 +214,12 @@ def write_in_update_text_file(file_id, current_time, message):
         encoding="utf-8",
     ) as text_file:
         text_file.write(message + "\n")
+
+def write_in_overall_information_file(message):
+    """Gets the update and writes it in the information file"""
+    with open(
+        "Information.txt",
+        "a",
+        encoding="utf-8",
+    ) as information_file:
+        information_file.write(str(message) + "\n")

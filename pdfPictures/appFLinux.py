@@ -48,6 +48,7 @@ def loop_starter():
         app.logger.info(
             "Each line in the info file is in the following order, seperated by a '*' : page number, amount of images, template name, text, path of each image"
         )
+        utils.write_in_overall_information_file("Started to make file - id: " + str(file_id) + " at: " + str(current_time))
 
         if request.form.get("Mixed"):
             template_name = json_data["3_images_mixed_html_template_name"]
@@ -203,13 +204,18 @@ def loop_continue():
                 ),
             )
 
-        return render_template(
-            "wait.html",
-            pdf_name=utils.generate_pdf_file_name(file_id, current_time),
-            info_file=utils.generate_text_file_name(file_id, current_time),
-            time = current_time,
-            file_id = file_id,
-        )
+    open(
+        utils.generate_update_text_file_name(file_id, current_time), "a", encoding="utf-8"
+    ).close()   
+
+    return render_template(
+        "wait.html",
+        pdf_name=utils.generate_pdf_file_name(file_id, current_time),
+        info_file=utils.generate_text_file_name(file_id, current_time),
+        file_id= file_id,
+        time= current_time,
+        update_msg = "Starting",
+    )
 
 
 @app.route("/ReLoad", methods=["GET", "POST"])
@@ -264,6 +270,7 @@ def reload_from_id_time():
 def upload_file():
     """Sends the user the finished pdf"""
     file_name = request.form.get("filename")
+    utils.write_in_overall_information_file("Uploaded " + file_name)
     return send_file(file_name, as_attachment=True)
 
 
@@ -285,7 +292,7 @@ def LoopAndFileUploader():
 
     update_file_name = utils.generate_update_text_file_name(file_id, time)
 
-    last_line = "starting"
+    last_line = "Starting"
         
     with open("/Test/templates/" + update_file_name, "r+") as update_file:
         for line in update_file:
