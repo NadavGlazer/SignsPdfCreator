@@ -4,16 +4,12 @@
 # TODO: use pylint on files when you finish a major work
 # TODO: always use auto save
 # TODO: use winkey+V
+
 import json
 from random import randint
-
-
 import utils
 from flask import Flask, render_template, request, send_file
-from fpdf import FPDF
 from werkzeug.utils import secure_filename
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
 import _thread
 import os
 
@@ -223,7 +219,9 @@ def reload_from_id_time():
     """Sends the user the finished pdf"""
     time = request.form.get("Time")
     file_id = request.form.get("FileID")
+
     text_file_name = utils.generate_text_file_name(file_id,time)
+    
     if not os.path.isfile(text_file_name):
         return render_template("index.html")
 

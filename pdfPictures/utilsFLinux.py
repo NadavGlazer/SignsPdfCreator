@@ -115,7 +115,7 @@ def information_to_pdf(information, file_id, current_time, json_data, applicatio
     time.sleep(0.1)
 
     driver = webdriver.Chrome(executable_path="/usr/bin/chromedriver", options=options)
-    while not driver.service.is_connectable(): 
+    while not driver.service.is_connectable():
         driver = webdriver.Chrome(executable_path="/usr/bin/chromedriver", options=options)
     driver.implicitly_wait(0.5)
 
@@ -161,7 +161,7 @@ def information_to_pdf(information, file_id, current_time, json_data, applicatio
         url = "http://192.168.0.108:5300/TempHtmlFile/" + temp_html_file_name
         driver.get(url)
 
-        write_in_update_text_file(file_id, current_time, "page "+ part[0] +" is being converted to image")  
+        write_in_update_text_file(file_id, current_time, "page "+ part[0] + " out of " + str(page_amount)+" is being converted to image")  
        
         #main_div = driver.find_element_by_id('MainDiv')
         #main_div.screenshot(image_file_name)
@@ -175,7 +175,7 @@ def information_to_pdf(information, file_id, current_time, json_data, applicatio
     image_counter = 1
     for image in final_images:
 
-        write_in_update_text_file(file_id, current_time, "page "+ str(image_counter) +" is being converted to pdf")         
+        write_in_update_text_file(file_id, current_time, "page "+ str(image_counter) + " out of " + str(page_amount)+ " is being converted to pdf")         
 
         pdf.add_page()
         pdf.image(
@@ -185,7 +185,7 @@ def information_to_pdf(information, file_id, current_time, json_data, applicatio
         )
         pdf.image(
             image,        
-            x=25,
+            x=json_data["pdf_body_x"],
             w=json_data["pdf_body_size"][0],
             h=json_data["pdf_body_size"][1],
             type=json_data["page_image_type"],
