@@ -1,5 +1,6 @@
 from datetime import datetime
 import os
+from re import match
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from fpdf import FPDF
@@ -158,7 +159,7 @@ def information_to_pdf(information, file_id, current_time, json_data, applicatio
         
         with application.app_context():
             app.load_temp_html_file(html_file=temp_html_file_name)
-        url = "http://192.168.0.108:5300/TempHtmlFile/" + temp_html_file_name
+        url = "http://192.168.0.108:5200/TempHtmlFile/" + temp_html_file_name
         driver.get(url)
 
         write_in_update_text_file(file_id, current_time, "page "+ part[0] + " out of " + str(page_amount)+" is being converted to image")  
@@ -223,3 +224,39 @@ def write_in_overall_information_file(message):
         encoding="utf-8",
     ) as information_file:
         information_file.write(str(message) + "\n")
+
+def get_information_array_from_file(text_file_name):
+    """Gets text file and returns array of the information"""
+    information = []
+    with open(
+        text_file_name,
+        "r+",
+        encoding="utf-8",
+    ) as text_file:
+        for line in text_file:
+            information.append(line.split("*"))
+    return information
+
+def get_template_from_specific_array_line(line_from_information):
+    """Gets array, finds the type of the template and returns the actuall template name"""
+    return{
+        "3ImagesMix" : "3_images_mixed_html_template_name",
+        "3ImagesHorizontal" : "3_images_Horizontal_html_template_name",
+        "4ImagesVertical" : "4_images_vertical_html_template_name"
+    }.get(str(line_from_information[1]))
+
+def write_new_line_in_information_file(temp_information, page_number, file_name):
+    """writes new line of infromation in the right place"""
+    with open(file_name, "r", encoding="utf-8") as text_file:
+            list_of_lines = text_file.readlines()
+            if len(list_of_lines) == 0:
+                list_of_lines.append(temp_information + "\n")
+            else:
+                list_of_lines.insert(page_number-1, temp_information +"\n")
+
+                        
+    open(file_name,"w", encoding="utf-8").close()            
+
+    with open(file_name, "w", encoding="utf-8") as text_file:
+        text_file.writelines(list_of_lines)
+
