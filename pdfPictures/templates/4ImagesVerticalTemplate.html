@@ -107,15 +107,15 @@
         .SubmitButtonDiv {
             display: flex;
             justify-content: center;
-            margin-top: 300px;
+            margin-top: 120px;
         }
 
         .SubmitButton {
-            height: 200px;
-            width: 250px;
-            align-items: center;
+            height: 150px;
+            width: 150px;
+            align-items: center;    
             margin: auto;
-        }
+        } 
 
         .InputFileDiv {
             float: left;
@@ -128,8 +128,18 @@
             width: 200px;
             height: 50px;
         }
-
-        .ResetButton {
+       .MovementButton{
+            height: 150px;
+            width: 150px;
+            align-items: center;    
+            margin: auto;
+       }
+       .MovementButtonDiv{
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+       }
+        .ResetButton{
             height: 200px;
             width: 250px;
             align-items: center;
@@ -190,27 +200,27 @@
         <!-- <img src="C:/Users/Nadav1/TaboProject/TaboAccessibility/header.png" class="HeaderImage"> -->
         <div class="FirstSignDiv">
             <div class="TitleDiv">
-                <p class="TitleText" id = "TitleText1">{{title}}</p>
+                <p class="TitleText" id = "TitleText1">{{TitleText1}}</p>
             </div>
             <div class="HorizontalPicsDiv">
                 <div class="FirstPicDiv">
-                    <img class="FirstImage" id="pic_one" src="{{pic_one}}">
+                    <img class="FirstImage" id="pic_one" src="{{FirstImage}}">
                 </div>
                 <div class="SecondPicDiv">
-                    <img class="SecondImage" id="pic_two" src="{{pic_two}}">
+                    <img class="SecondImage" id="pic_two" src="{{SecondImage}}">
                 </div>
             </div>
         </div>
         <div class="SecondSignDiv">
             <div class="TitleDiv">
-                <p class="TitleText" id = "TitleText2">{{title2}}</p>
+                <p class="TitleText" id = "TitleText2">{{TitleText2}}</p>
             </div>
             <div class="HorizontalPicsDiv">
                 <div class="SecondPicDiv">
-                    <img class="FirstImage" id="pic_three" src="{{pic_three}}">
+                    <img class="FirstImage" id="pic_three" src="{{ThirdImage}}">
                 </div>
                 <div class="SecondPicDiv">
-                    <img class="SecondImage" id="pic_four" src="{{pic_four}}">
+                    <img class="SecondImage" id="pic_four" src="{{FourthImage}}">
                 </div>
             </div>
         </div>
@@ -225,29 +235,29 @@
             <div class="FormDiv">
 
                 <textarea rows="4" cols="70" class="InteractiveTextInput" name="TitleTextF1" autoComplete="off" id=TitleTextF1
-                    onchange="LoadText1()"></textarea>
+                    onchange="LoadText1()" placeholder="{{TitleText1}}"></textarea>
 
                 <div class="InputFileDiv">
                     <input type="file" class="inputFile" name="FirstPic" id="FirstPic" accept="image/*"
-                        onchange="LoadFirstImage(event)" />
+                        onchange="LoadFirstImage(event)" placeholder="{{FirstImage}}"/>
                 </div>
 
                 <div class="InputFileDiv">
                     <input type="file" class="inputFile" name="SecondPic" id="SecondPic" accept="image/*"
-                        onchange="LoadSecondImage(event)" />
+                        onchange="LoadSecondImage(event)" placeholder="{{SecondImage}}"/>
                 </div>
 
                 <textarea rows="4" cols="70" class="InteractiveTextInput" name="TitleTextF2" autoComplete="off" id=TitleTextF2
-                onchange="LoadText2()"></textarea>
+                onchange="LoadText2()" placeholder="{{TitleText2}}"></textarea>
 
                 <div class="InputFileDiv">
                     <input type="file" class="inputFile" name="ThirdPic" id="ThirdPic" accept="image/*"
-                        onchange="LoadThirdImage(event)" />
+                        onchange="LoadThirdImage(event)" placeholder="{{ThirdImage}}" />
                 </div>
 
                 <div class="InputFileDiv">
                     <input type="file" class="inputFile" name="FourthPic" id="FourthPic" accept="image/*"
-                        onchange="LoadFourthImage(event)" />
+                        onchange="LoadFourthImage(event)" placeholder="{{FourthImage}}"/>
                 </div>
 
                 <input type="hidden" id="FileID" name="FileID" value={{FileID}} readonly>
@@ -263,6 +273,11 @@
                     <button type="submit" class="SubmitButton" name="NewMix3" value="NewMi3">New page - 3 images mixed</button>
                     <button type="submit" class="SubmitButton" name="NewVertical4" value="NewVertical4">New page - 4 images Verticaly</button>
                     <button type="submit" class="SubmitButton" name="End" value="End">Finish and create pdf</button>
+                </div>
+
+                <div class="MovementButtonDiv">
+                    <button type="submit" class="MovementButton" name="NextPage" value="NextPage">NextPage</button>
+                    <button type="submit" class="MovementButton" name="PreviousPage" value="PreviousPage">PreviousPage</button>
                 </div>
             </div>
 

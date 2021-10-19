@@ -121,6 +121,11 @@
             align-items: center;    
             margin: auto;
        }
+       .MovementButtonDiv{
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+       }
         .ResetButton{
             height: 200px;
             width: 250px;
@@ -169,18 +174,18 @@
     <div class="MainDiv">
         <!-- <img src="C:/Users/Nadav1/TaboProject/TaboAccessibility/header.png" class="HeaderImage"> -->
         <div class="TitleDiv">
-            <p class="TitleText1" id="TitleText1">{{title}}</p>
+            <p class="TitleText1" id="TitleText1">{{TitleText1}}</p>
         </div>
         <div class="HorizontalPicsDiv">
             <div class="FirstPicDiv">
-                <img class="FirstImage" id="pic_one" src="{{pic_one}}">
+                <img class="FirstImage" id="pic_one" src="{{FirstImage}}">
             </div>
             <div class="SecondPicDiv">
-                <img class="SecondImage" id="pic_two" src="{{pic_two}}">
+                <img class="SecondImage" id="pic_two" src="{{SecondImage}}">
             </div>
         </div>
         <div class="VerticalPicDiv">
-            <img class="ThirdImage" id="pic_three" src="{{pic_three}}">
+            <img class="ThirdImage" id="pic_three" src="{{ThirdImage}}">
         </div>
         <div class="PageNumberDiv">
             <h2>{{PageNumber}}</h2>
@@ -190,21 +195,21 @@
         <h1 class="InteractiveTitle">Add images and text</h1>
         <form action="/LoopContinue" method="POST" enctype="multipart/form-data">
             <div class="FormDiv">
-                <textarea rows="4" cols="70" class="textInput" name="TitleTextF1" autoComplete="off" id=TitleTextF1
-                    onchange="LoadText()"></textarea>
+                <textarea rows="4" cols="70" class="textInput" name="TitleTextF1" autoComplete="off" id=TitleTextF1 
+                    onchange="LoadText()" placeholder="{{TitleText1}}"></textarea>
                     <div style="float: left;margin-top: 100px;">
                         <input type="file" class="inputFile" name="FirstPic" id="FirstPic" accept="image/*"
-                            onchange="LoadFirstImage(event)" />
+                            onchange="LoadFirstImage(event)" placeholder="{{FirstImage}}" />
                     </div>
     
                     <div  style="margin-top: 100px; float: right;margin-right: 200px;">
                         <input type="file" class="inputFile" name="SecondPic" id="SecondPic" accept="image/*"
-                            onchange="LoadSecondImage(event)" />
+                            onchange="LoadSecondImage(event)" placeholder="{{SecondImage}}" />
                     </div>
     
                     <div style="display: flex; justify-content: center; margin-top: 200px;">
                         <input type="file" class="inputFile" name="ThirdPic" id="ThirdPic" accept="image/*"
-                            onchange="LoadThirdImage(event)" />
+                            onchange="LoadThirdImage(event)" placeholder="{{ThirdImage}}"/>
                     </div>
     
                 
@@ -223,7 +228,7 @@
                     <button type="submit" class="SubmitButton" name="End" value="End">Finish and create pdf</button>
                 </div>
 
-                <div class="SubmitButtonDiv">
+                <div class="MovementButtonDiv">
                     <button type="submit" class="MovementButton" name="NextPage" value="NextPage">NextPage</button>
                     <button type="submit" class="MovementButton" name="PreviousPage" value="PreviousPage">PreviousPage</button>
                 </div>

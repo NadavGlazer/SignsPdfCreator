@@ -59,6 +59,12 @@ def loop_starter():
             Time = current_time,
             PageNumber = 1,
             PageCounter = 1,
+            TitleText1 = "",
+            TitleText2 = "",
+            FirstImage = "",
+            SecondImage = "",
+            ThirdImage = "",
+            FourthImage = "",
         )
 
 
@@ -169,7 +175,7 @@ def loop_continue():
                     Time = current_time,
                     PageNumber = page_number,
                     PageCounter = page_counter,
-                    TitleText = information[2],
+                    TitleText1 = information[2],
                     FirstImage = information[3],
                     SecondImage = information[4],
                     ThirdImage = information[5],
@@ -235,6 +241,12 @@ def loop_continue():
                 Time = current_time,
                 PageNumber = page_number,
                 PageCounter = page_counter,
+                TitleText1 = "",
+                TitleText2 = "",
+                FirstImage = "",
+                SecondImage = "",
+                ThirdImage = "",
+                FourthImage = "",
             )
 
         else:
