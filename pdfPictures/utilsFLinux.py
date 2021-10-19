@@ -159,19 +159,18 @@ def information_to_pdf(information, file_id, current_time, json_data, applicatio
         
         with application.app_context():
             app.load_temp_html_file(html_file=temp_html_file_name)
-        url = "http://192.168.0.108:5200/TempHtmlFile/" + temp_html_file_name
+        url = "http://192.168.0.108:"+ str(json_data["port"]) + "/TempHtmlFile/" + temp_html_file_name
         driver.get(url)
 
         write_in_update_text_file(file_id, current_time, "page "+ part[0] + " out of " + str(page_amount)+" is being converted to image")  
        
-        #main_div = driver.find_element_by_id('MainDiv')
-        #main_div.screenshot(image_file_name)
         driver.save_screenshot(image_file_name)
 
         final_images.append(image_file_name)
         page_number += 1
         
     driver.close()
+    
     pdf = FPDF("P", "mm", "A4")
     image_counter = 1
     for image in final_images:

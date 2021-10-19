@@ -1,4 +1,5 @@
 {
+    "port": 5200,
     "main_computer_upload_folder":"C:/Users/Nadav1/Desktop/GithubRepo`s/TaboProject/TaboAccessibility/pdfPictures/static/uploads/",
     "docker_upload_folder": "/pdfpictures/static/uploads/",
     "aa" : "/Test/templates/static/uploads/",

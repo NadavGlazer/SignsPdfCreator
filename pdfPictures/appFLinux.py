@@ -372,4 +372,4 @@ def LoopAndFileUploader():
     return render_template('wait.html', pdf_name = pdf_file_name, info_file=info_file_name, file_id = file_id, time= time, update_msg = last_line)
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5200)
+    app.run(host="0.0.0.0", port = json_data["port"])
