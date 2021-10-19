@@ -59,12 +59,6 @@ def loop_starter():
             Time = current_time,
             PageNumber = 1,
             PageCounter = 1,
-            TitleText1 = "",
-            TitleText2 = "",
-            FirstImage = "",
-            SecondImage = "",
-            ThirdImage = "",
-            FourthImage = "",
         )
 
 
@@ -89,12 +83,8 @@ def loop_continue():
 
         is_4_image_page =  (str(template_type) == "4ImagesVertical")
 
-        go_to_next_page = request.form.get("NextPage")
-        go_to_previous_page = request.form.get("PreviousPage")
-
-        page_number = int(page_number)
-
         fourth_pic = "temp"
+
         if is_4_image_page:
            title_text2 = request.form.get("TitleTextF2")
            fourth_pic = request.files.get("FourthPic")
@@ -111,8 +101,8 @@ def loop_continue():
         else:
 
             temp_info = ""
-            # "Information" has the following data:
-            # pic amount, html template, title text, the pictures
+            # "Information" has the following data: page number,
+            #  pic amount, html template, title text, the pictures
             temp_info = str(template_type[0])
             temp_info = temp_info + "*" + str(template_type)
             temp_info = utils.get_fixed_title_text(temp_info, title_text1)
@@ -152,85 +142,22 @@ def loop_continue():
 
             app.logger.info("Page %s information : %s", page_number, temp_info)
 
-            utils.write_new_line_in_information_file(temp_info, page_number, utils.generate_text_file_name(file_id, current_time))           
+            with open(
+                utils.generate_text_file_name(file_id, current_time),
+                "a",
+                encoding="utf-8",
+            ) as text_file:
+                text_file.write(temp_info + "\n")
 
+            page_number = int(page_number)
             page_counter = int(page_counter)
 
             page_number += 1
             page_counter += 1
             print(temp_info)
 
-        if go_to_next_page:
-            #Assuming the html blocked pressing the button if its the last page*
-            text_file_name = utils.generate_text_file_name(file_id, current_time)
-            information = utils.get_information_array_from_file(text_file_name)
 
-            page_number += 1
-            information = str(information[page_number-1]).split("*")
-            temp_template = json_data[utils.get_template_from_specific_array_line(information)]
-
-            if temp_template[0] == "3":
-                return render_template(
-                    temp_template,
-                    FileID = file_id,
-                    Time = current_time,
-                    PageNumber = page_number,
-                    PageCounter = page_counter,
-                    TitleText1 = information[2],
-                    FirstImage = information[3],
-                    SecondImage = information[4],
-                    ThirdImage = information[5],
-                )
-            elif temp_template[0] == "4":
-                return render_template(
-                    temp_template,
-                    FileID = file_id,
-                    Time = current_time,
-                    PageNumber = page_number,
-                    PageCounter = page_counter,
-                    TitleText1 = information[2],
-                    TitleText2 = information[3],
-                    FirstImage = information[4],
-                    SecondImage = information[5],
-                    ThirdImage = information[6],
-                    FourthImage = information[7],
-                )    
-        elif go_to_previous_page:
-            #Assuming the html blocked pressing the button if its the first page*
-            text_file_name = utils.generate_text_file_name(file_id, current_time)
-            information = utils.get_information_array_from_file(text_file_name)
-
-            page_number -= 1
-            information = str(information[page_number-1]).split("*")
-            temp_template = json_data[utils.get_template_from_specific_array_line(information)]
-
-            if temp_template[0] == "3":
-                return render_template(
-                    temp_template,
-                    FileID = file_id,
-                    Time = current_time,
-                    PageNumber = page_number,
-                    PageCounter = page_counter,
-                    TitleText = information[2],
-                    FirstImage = information[3],
-                    SecondImage = information[4],
-                    ThirdImage = information[5],
-                )
-            elif temp_template[0] == "4":
-                return render_template(
-                    temp_template,
-                    FileID = file_id,
-                    Time = current_time,
-                    PageNumber = page_number,
-                    PageCounter = page_counter,
-                    TitleText1 = information[2],
-                    TitleText2 = information[3],
-                    FirstImage = information[4],
-                    SecondImage = information[5],
-                    ThirdImage = information[6],
-                    FourthImage = information[7],
-                )    
-        elif is_new_3_mix_page or is_new_3_horizontal_page or is_new_4_vertical_page:            
+        if is_new_3_mix_page or is_new_3_horizontal_page or is_new_4_vertical_page:            
             if is_new_3_horizontal_page:
                 temp_template = json_data["3_images_Horizontal_html_template_name"]
             elif is_new_3_mix_page :
@@ -243,12 +170,6 @@ def loop_continue():
                 Time = current_time,
                 PageNumber = page_number,
                 PageCounter = page_counter,
-                TitleText1 = "",
-                TitleText2 = "",
-                FirstImage = "",
-                SecondImage = "",
-                ThirdImage = "",
-                FourthImage = "",
             )
 
         else:
@@ -300,11 +221,18 @@ def reload_from_id_time():
     file_id = request.form.get("FileID")
 
     text_file_name = utils.generate_text_file_name(file_id,time)
-
+    
     if not os.path.isfile(text_file_name):
         return render_template("index.html")
 
-    information = utils.get_information_array_from_file(text_file_name)
+    information = []
+    with open(
+        text_file_name,
+        "r+",
+        encoding="utf-8",
+    ) as text_file:
+        for line in text_file:
+            information.append(line.split("*"))
 
     if not information:
         app.logger.info("0 pages were submitted, sending to home page")
@@ -374,4 +302,4 @@ def LoopAndFileUploader():
     return render_template('wait.html', pdf_name = pdf_file_name, info_file=info_file_name, file_id = file_id, time= time, update_msg = last_line)
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port = json_data["port"])
+    app.run(host="0.0.0.0", port=5200)

@@ -17,5 +17,6 @@
     "header_picture_path": "header.png",
     "header_picure_size" : [190,15],
     "pdf_body_size": [190, 246],
-    "pdf_body_x" : 25
+    "pdf_body_x" : 25,
+    "version" : "0.38"
 }
