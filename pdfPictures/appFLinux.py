@@ -7,6 +7,7 @@
 
 import json
 from random import randint
+import re
 import utils
 from flask import Flask, render_template, request, send_file
 from werkzeug.utils import secure_filename
@@ -65,6 +66,7 @@ def loop_starter():
             SecondImage = "",
             ThirdImage = "",
             FourthImage = "",
+            NewPage = True,
         )
 
 
@@ -92,8 +94,11 @@ def loop_continue():
         go_to_next_page = request.form.get("NextPage")
         go_to_previous_page = request.form.get("PreviousPage")
 
+        is_new_page = request.form.get("NewPage")
+
         page_number = int(page_number)
 
+        is_empty_page = False
         fourth_pic = "temp"
         if is_4_image_page:
            title_text2 = request.form.get("TitleTextF2")
@@ -106,10 +111,10 @@ def loop_continue():
             or "application/octet-stream" in str(third_pic)
             or "application/octet-stream" in str(fourth_pic)
         ):            
+            is_empty_page = True
             app.logger.info("Page number %s is missing at least one image", page_number)
 
         else:
-
             temp_info = ""
             # "Information" has the following data:
             # pic amount, html template, title text, the pictures
@@ -152,84 +157,186 @@ def loop_continue():
 
             app.logger.info("Page %s information : %s", page_number, temp_info)
 
-            utils.write_new_line_in_information_file(temp_info, page_number, utils.generate_text_file_name(file_id, current_time))           
+            utils.write_new_line_in_information_file(temp_info, page_number, utils.generate_text_file_name(file_id, current_time), is_new_page)           
 
             page_counter = int(page_counter)
 
-            page_number += 1
             page_counter += 1
             print(temp_info)
 
         if go_to_next_page:
-            #Assuming the html blocked pressing the button if its the last page*
             text_file_name = utils.generate_text_file_name(file_id, current_time)
             information = utils.get_information_array_from_file(text_file_name)
+    
+            #Check if possible, in case not - returning to the last page      
+            if page_number == len(information) :
+                information = information[page_number-1]
+                temp_template = json_data[utils.get_template_from_specific_array_line(information)]
+                
+                #Returning to an empty page or the last one, depends on the situation
+                if is_empty_page :
+                    return render_template(
+                        temp_template,
+                        FileID = file_id,
+                        Time = current_time,
+                        PageNumber = page_number,
+                        PageCounter = page_counter,
+                        TitleText1 = "",
+                        TitleText2 = "",
+                        FirstImage = "",
+                        SecondImage = "",
+                        ThirdImage = "",
+                        FourthImage = "",
+                        FirstImageVisable = "",
+                        SecondImageVisable = "",
+                        ThirdImageVisable = "",
+                        FourthImageVisable = "",
+                        NewPage = True,
+                    )       
+                else:                    
+                    return render_template(
+                        temp_template,
+                        FileID = file_id,
+                        Time = current_time,
+                        PageNumber = page_number,
+                        PageCounter = page_counter,
+                        TitleText = information[2],
+                        FirstImage = information[3],
+                        SecondImage = information[4],
+                        ThirdImage = information[5],
+                        FirstImageVisable = ("/" + information[3].split("/",3)[-1]),
+                        SecondImageVisable = ("/" + information[4].split("/",3)[-1]),
+                        ThirdImageVisable = ("/" + information[5].split("/",3)[-1]),
+                        NewPage = False,
+                    )
+            else:
+                #In case its able to go to the next page :
+                page_number += 1
+                information = information[page_number-1]
+                temp_template = json_data[utils.get_template_from_specific_array_line(information)]
 
-            page_number += 1
-            information = str(information[page_number-1]).split("*")
-            temp_template = json_data[utils.get_template_from_specific_array_line(information)]
-
-            if temp_template[0] == "3":
-                return render_template(
-                    temp_template,
-                    FileID = file_id,
-                    Time = current_time,
-                    PageNumber = page_number,
-                    PageCounter = page_counter,
-                    TitleText1 = information[2],
-                    FirstImage = information[3],
-                    SecondImage = information[4],
-                    ThirdImage = information[5],
-                )
-            elif temp_template[0] == "4":
-                return render_template(
-                    temp_template,
-                    FileID = file_id,
-                    Time = current_time,
-                    PageNumber = page_number,
-                    PageCounter = page_counter,
-                    TitleText1 = information[2],
-                    TitleText2 = information[3],
-                    FirstImage = information[4],
-                    SecondImage = information[5],
-                    ThirdImage = information[6],
-                    FourthImage = information[7],
-                )    
+                if temp_template[0] == "3":
+                    return render_template(
+                        temp_template,
+                        FileID = file_id,
+                        Time = current_time,
+                        PageNumber = page_number,
+                        PageCounter = page_counter,
+                        TitleText1 = information[2],
+                        FirstImage = information[3],
+                        SecondImage = information[4],
+                        ThirdImage = information[5],
+                        FirstImageVisable = ("/" + information[3].split("/",3)[-1]),
+                        SecondImageVisable = ("/" + information[4].split("/",3)[-1]),
+                        ThirdImageVisable = ("/" + information[5].split("/",3)[-1]),
+                        NewPage = False,
+                    )
+                elif temp_template[0] == "4":
+                    return render_template(
+                        temp_template,
+                        FileID = file_id,
+                        Time = current_time,
+                        PageNumber = page_number,
+                        PageCounter = page_counter,
+                        TitleText1 = information[2],
+                        TitleText2 = information[3],
+                        FirstImage = information[4],
+                        SecondImage = information[5],
+                        ThirdImage = information[6],
+                        FourthImage = information[7],
+                        FirstImageVisable = ("/" + information[4].split("/",3)[-1]),
+                        SecondImageVisable = ("/" + information[5].split("/",3)[-1]),
+                        ThirdImageVisable = ("/" + information[6].split("/",3)[-1]),
+                        FourthImageVisable = ("/" + information[7].split("/",3)[-1]),
+                        NewPage = False,
+                    )    
         elif go_to_previous_page:
-            #Assuming the html blocked pressing the button if its the first page*
             text_file_name = utils.generate_text_file_name(file_id, current_time)
             information = utils.get_information_array_from_file(text_file_name)
 
-            page_number -= 1
-            information = str(information[page_number-1]).split("*")
-            temp_template = json_data[utils.get_template_from_specific_array_line(information)]
+            #Check if possible, in case not - returning to the first page      
+            if page_number == 1:
+                information = information[0]
+                temp_template = json_data[utils.get_template_from_specific_array_line(information)]
 
-            if temp_template[0] == "3":
-                return render_template(
-                    temp_template,
-                    FileID = file_id,
-                    Time = current_time,
-                    PageNumber = page_number,
-                    PageCounter = page_counter,
-                    TitleText = information[2],
-                    FirstImage = information[3],
-                    SecondImage = information[4],
-                    ThirdImage = information[5],
-                )
-            elif temp_template[0] == "4":
-                return render_template(
-                    temp_template,
-                    FileID = file_id,
-                    Time = current_time,
-                    PageNumber = page_number,
-                    PageCounter = page_counter,
-                    TitleText1 = information[2],
-                    TitleText2 = information[3],
-                    FirstImage = information[4],
-                    SecondImage = information[5],
-                    ThirdImage = information[6],
-                    FourthImage = information[7],
-                )    
+                #Returning to an empty page or the first one, depends on the situation
+                if is_empty_page :
+                    return render_template(
+                        temp_template,
+                        FileID = file_id,
+                        Time = current_time,
+                        PageNumber = page_number,
+                        PageCounter = page_counter,
+                        TitleText1 = "",
+                        TitleText2 = "",
+                        FirstImage = "",
+                        SecondImage = "",
+                        ThirdImage = "",
+                        FourthImage = "",
+                        FirstImageVisable = "",
+                        SecondImageVisable = "",
+                        ThirdImageVisable = "",
+                        FourthImageVisable = "",
+                        NewPage = True,
+                    )       
+                else:                    
+                    return render_template(
+                        temp_template,
+                        FileID = file_id,
+                        Time = current_time,
+                        PageNumber = page_number,
+                        PageCounter = page_counter,
+                        TitleText = information[2],
+                        FirstImage = information[3],
+                        SecondImage = information[4],
+                        ThirdImage = information[5],
+                        FirstImageVisable = ("/" + information[3].split("/",3)[-1]),
+                        SecondImageVisable = ("/" + information[4].split("/",3)[-1]),
+                        ThirdImageVisable = ("/" + information[5].split("/",3)[-1]),
+                        NewPage = False,
+                    )
+            else:
+                #In case its able to go to the previous page :
+                page_number -= 1
+                information = information[page_number-1]
+                temp_template = json_data[utils.get_template_from_specific_array_line(information)]
+
+                #Sends diffrent information depends on the type of the previous page
+                if temp_template[0] == "3":
+                    return render_template(
+                        temp_template,
+                        FileID = file_id,
+                        Time = current_time,
+                        PageNumber = page_number,
+                        PageCounter = page_counter,
+                        TitleText = information[2],
+                        FirstImage = information[3],
+                        SecondImage = information[4],
+                        ThirdImage = information[5],
+                        FirstImageVisable = ("/" + information[3].split("/",3)[-1]),
+                        SecondImageVisable = ("/" + information[4].split("/",3)[-1]),
+                        ThirdImageVisable = ("/" + information[5].split("/",3)[-1]),
+                        NewPage = False,
+                    )
+                elif temp_template[0] == "4":
+                    return render_template(
+                        temp_template,
+                        FileID = file_id,
+                        Time = current_time,
+                        PageNumber = page_number,
+                        PageCounter = page_counter,
+                        TitleText1 = information[2],
+                        TitleText2 = information[3],
+                        FirstImage = information[4],
+                        SecondImage = information[5],
+                        ThirdImage = information[6],
+                        FourthImage = information[7],
+                        FirstImageVisable = ("/" + information[4].split("/",3)[-1]),
+                        SecondImageVisable = ("/" + information[5].split("/",3)[-1]),
+                        ThirdImageVisable = ("/" + information[6].split("/",3)[-1]),
+                        FourthImageVisable = ("/" + information[7].split("/",3)[-1]),
+                        NewPage = False,
+                    )    
         elif is_new_3_mix_page or is_new_3_horizontal_page or is_new_4_vertical_page:            
             if is_new_3_horizontal_page:
                 temp_template = json_data["3_images_Horizontal_html_template_name"]
@@ -237,6 +344,7 @@ def loop_continue():
                 temp_template = json_data["3_images_mixed_html_template_name"]
             else:
                 temp_template = json_data["4_images_vertical_html_template_name"]
+            page_number += 1
             return render_template(
                 temp_template,
                 FileID = file_id,
@@ -249,6 +357,11 @@ def loop_continue():
                 SecondImage = "",
                 ThirdImage = "",
                 FourthImage = "",
+                FirstImageVisable = "",
+                SecondImageVisable = "",
+                ThirdImageVisable = "",
+                FourthImageVisable = "",
+                NewPage = True,
             )
 
         else:

@@ -244,14 +244,19 @@ def get_template_from_specific_array_line(line_from_information):
         "4ImagesVertical" : "4_images_vertical_html_template_name"
     }.get(str(line_from_information[1]))
 
-def write_new_line_in_information_file(temp_information, page_number, file_name):
+def write_new_line_in_information_file(temp_information, page_number, file_name, is_new_page):
     """writes new line of infromation in the right place"""
     with open(file_name, "r", encoding="utf-8") as text_file:
             list_of_lines = text_file.readlines()
             if len(list_of_lines) == 0:
                 list_of_lines.append(temp_information + "\n")
             else:
-                list_of_lines.insert(page_number-1, temp_information +"\n")
+                if not is_new_page:
+                    list_of_lines[page_number-1] = temp_information
+                else:
+                    list_of_lines.insert(page_number-1, temp_information +"\n")
+                
+            
 
                         
     open(file_name,"w", encoding="utf-8").close()            

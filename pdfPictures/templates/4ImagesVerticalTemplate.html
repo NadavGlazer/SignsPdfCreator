@@ -204,10 +204,10 @@
             </div>
             <div class="HorizontalPicsDiv">
                 <div class="FirstPicDiv">
-                    <img class="FirstImage" id="pic_one" src="{{FirstImage}}">
+                    <img class="FirstImage" id="pic_one" src="{{FirstImageVisable}}">
                 </div>
                 <div class="SecondPicDiv">
-                    <img class="SecondImage" id="pic_two" src="{{SecondImage}}">
+                    <img class="SecondImage" id="pic_two" src="{{SecondImageVisable}}">
                 </div>
             </div>
         </div>
@@ -217,10 +217,10 @@
             </div>
             <div class="HorizontalPicsDiv">
                 <div class="SecondPicDiv">
-                    <img class="FirstImage" id="pic_three" src="{{ThirdImage}}">
+                    <img class="FirstImage" id="pic_three" src="{{ThirdImageVisable}}">
                 </div>
                 <div class="SecondPicDiv">
-                    <img class="SecondImage" id="pic_four" src="{{FourthImage}}">
+                    <img class="SecondImage" id="pic_four" src="{{FourthImageVisable}}">
                 </div>
             </div>
         </div>
@@ -265,6 +265,7 @@
                 <input type="hidden" id="TemplateType" name="TemplateType" value="4ImagesVertical" readonly>
                 <input type="hidden" id="PageNumber" name="PageNumber" value={{PageNumber}} readonly>
                 <input type="hidden"  id="PageCounter" name="PageCounter" value={{PageCounter}} readonly>
+                <input type="hidden"  id="NewPage" name="NewPage" value={{NewPage}} readonly>
 
                 <div class="SubmitButtonDiv">
 
@@ -275,9 +276,9 @@
                     <button type="submit" class="SubmitButton" name="End" value="End">Finish and create pdf</button>
                 </div>
 
-                <div class="MovementButtonDiv">
-                    <button type="submit" class="MovementButton" name="NextPage" value="NextPage">NextPage</button>
+                <div class="MovementButtonDiv">                    
                     <button type="submit" class="MovementButton" name="PreviousPage" value="PreviousPage">PreviousPage</button>
+                    <button type="submit" class="MovementButton" name="NextPage" value="NextPage">NextPage</button>
                 </div>
             </div>
 
