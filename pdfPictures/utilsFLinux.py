@@ -264,3 +264,7 @@ def write_new_line_in_information_file(temp_information, page_number, file_name,
     with open(file_name, "w", encoding="utf-8") as text_file:
         text_file.writelines(list_of_lines)
 
+def template_type_to_html_template(template_type):
+    """Gets html type and returns the tempalte, 3ImagesMix --> 3ImagesMixTemplate.html"""
+    return template_type + "Template.html"
+

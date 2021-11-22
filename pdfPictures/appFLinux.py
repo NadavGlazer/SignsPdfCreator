@@ -169,14 +169,12 @@ def loop_continue():
             information = utils.get_information_array_from_file(text_file_name)
     
             #Check if possible, in case not - returning to the last page      
-            if page_number == len(information) :
-                information = information[page_number-1]
-                temp_template = json_data[utils.get_template_from_specific_array_line(information)]
+            if page_number == len(information) :               
                 
                 #Returning to an empty page or the last one, depends on the situation
                 if is_empty_page :
                     return render_template(
-                        temp_template,
+                        utils.template_type_to_html_template(str(template_type)),
                         FileID = file_id,
                         Time = current_time,
                         PageNumber = page_number,
@@ -193,7 +191,9 @@ def loop_continue():
                         FourthImageVisable = "",
                         NewPage = True,
                     )       
-                else:                    
+                else:
+                    information = information[page_number-1]
+                    temp_template = json_data[utils.get_template_from_specific_array_line(information)]                    
                     return render_template(
                         temp_template,
                         FileID = file_id,
@@ -256,13 +256,11 @@ def loop_continue():
 
             #Check if possible, in case not - returning to the first page      
             if page_number == 1:
-                information = information[0]
-                temp_template = json_data[utils.get_template_from_specific_array_line(information)]
-
+                
                 #Returning to an empty page or the first one, depends on the situation
                 if is_empty_page :
                     return render_template(
-                        temp_template,
+                        utils.template_type_to_html_template(str(template_type)),
                         FileID = file_id,
                         Time = current_time,
                         PageNumber = page_number,
@@ -279,7 +277,9 @@ def loop_continue():
                         FourthImageVisable = "",
                         NewPage = True,
                     )       
-                else:                    
+                else:
+                    information = information[0]
+                    temp_template = json_data[utils.get_template_from_specific_array_line(information)]                    
                     return render_template(
                         temp_template,
                         FileID = file_id,
