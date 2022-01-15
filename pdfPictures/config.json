@@ -1,8 +1,7 @@
 {
     "port": 5200,
-    "main_computer_upload_folder":"C:/Users/Nadav1/Desktop/GithubRepo`s/TaboProject/TaboAccessibility/pdfPictures/static/uploads/",
-    "docker_upload_folder": "/pdfpictures/static/uploads/",
-    "aa" : "/Test/templates/static/uploads/",
+    "main_computer_upload_folder":"C:/Users/Nadav1/Desktop/GithubRepos/SignsPdfCreator/static/uploads/",
+    "docker_upload_folder": "/Test/templates/static/uploads/",
     "MAX_CONTENT_PATH": 1000,
     "TIME_OUT": 0,
     "id_random_range": [1000,9999],
@@ -18,5 +17,7 @@
     "header_picure_size" : [190,15],
     "pdf_body_size": [190, 246],
     "pdf_body_x" : 25,
-    "version" : "0.38"
+    "version" : "0.39",
+    "ip" : "http://192.168.0.117:"
+
 }
